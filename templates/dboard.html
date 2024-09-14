@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASHBOARD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <style>
+
+        
+        *{
+        margin: 0;
+        padding: 0;
+        user-select: none;
+        
+        }
+        *::selection{
+            background-color: transparent;
+        }
+
+        *:focus{
+            background-color: transparent;
+        }
+
+        *{
+    outline-width:  0 !important;
+}
+
+*:focus{
+    outline: none !important;
+}
+
+/*IE9*/
+*::selection 
+{
+    background-color:transparent;
+} 
+*::-moz-selection
+{
+    background-color:transparent;
+}
+*
+{        
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    /*IE10*/
+    -ms-user-select: none;
+    user-select: none;
+
+    /*You just need this if you are only concerned with android and not desktop browsers.*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}    
+input[type="text"], textarea, [contenteditable]
+{
+
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+
+        
+        </style>
+</head>
+<body style="background-color:black">
+
+    <container style="width:100%">
+
+        <div class="tit" style="display:flex;justify-content:center;margin-top:1em;font-size:1.2rem;font-weight:500;font-family:poppins;color:lightgreen;flex-wrap:wrap;justify-content:center;margin-top:2em">
+            USER AUTHENTICATED FOR <div style="color:white;margin-left:0.5em"> USER NAME : <span style="color:cyan">{{name}}</span> </div> 
+
+
+        </div>
+        <div class="imgholder" style="display:flex;justify-content:center;margin-top:2em;border-radius:50%">
+            <img src="/static/ImagesAttendance/{{name}}.jpg" alt="" width="100%" style="height:300px;width:300px;object-fit:cover;border-radius:50%">
+        </div>
+
+        
+        
+       
+
+    </container>
+    
+        
+    
+
+  
+   
+
+</div>
+    
+
+
+    
+
+    
+
+
+
+
+
+    
+</body>
+</html>
