@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Recorder</title>
+    <style>
+    *{margin: 0;
+    padding: 0;}</style>
+</head>
+<body style="display: flex;justify-content: center;flex-direction: column;justify-content: center;width: 100%;align-items: center;">
+    <div class="container" style="max-width: 600px;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;padding: 1em;min-width:400px;min-height: 700px;">
+
+        
+
+   <div class="loghold" style="display: flex;justify-content: center;">
+    <img src="/static/logo.png" alt="" style="width: 100px;">
+   </div>
+   
+   <div class="loghold" style="display: flex;justify-content: center;font-family: 'Poppins';">
+    CHETNA FACE AUTH
+   </div>
+
+   <div class="temp" id="temp">
+
+    <h1 style="font-family: 'Poppins';font-weight: lighter;text-align: center;padding: 0.35em;color: rgb(58, 58, 58);">Record a 2-Second Video</h1>
+   <div class="btnholder" style="display: flex;justify-content: center;margin-top: 2em;">
+    <button id="recordButton" style="background-color: #FF7A7C;padding: 0.5em;font-family: Poppins;color: white;border: 0;border-radius: 4px;cursor: pointer;">Record Video</button>
+   </div>
+   <div class="vidholder" style="margin-top: 1em;display: flex;justify-content: center;border-radius: 50%;">
+
+
+    <video id="preview" width="320px" height="320px" autoplay muted style="border-radius: 50%;object-fit: cover;border: 1px solid #FF7A7C;"></video>
+
+
+   </div>
+   
+
+</div>
+
+<div id="loader" style="display: none;justify-content: center;margin-top: 3em;flex-direction: column;justify-content: center;width: 100%;">
+
+    <div class="div" style="width: 100%;display: flex;justify-content: center;">
+         <div class="loader"></div> 
+        <style>
+          
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+  border-radius: 50%;
+  background:
+    linear-gradient(0deg ,rgb(0 0 0/50%) 30%,#0000 0 70%,rgb(0 0 0/100%) 0) 50%/8% 100%,
+    linear-gradient(90deg,rgb(0 0 0/25%) 30%,#0000 0 70%,rgb(0 0 0/75% ) 0) 50%/100% 8%;
+  background-repeat: no-repeat;
+  animation: l23 1s infinite steps(12);
+}
+.loader::before,
+.loader::after {
+   content: "";
+   grid-area: 1/1;
+   border-radius: 50%;
+   background: inherit;
+   opacity: 0.915;
+   transform: rotate(30deg);
+}
+.loader::after {
+   opacity: 0.83;
+   transform: rotate(60deg);
+}
+@keyframes l23 {
+  100% {transform: rotate(1turn)}
+}
+        </style>
+    </div>
+
+    <div class="cap" style="display: flex;justify-content: center;margin-top: 2em;font-family: 'Poppins';">
+        Please Wait as we process
+    </div>
+
+
+
+</div>
+
+
+
+    
+</div>
+</body>
+</html>
+
+
+<script>
+    const recordButton = document.getElementById('recordButton');
+    const preview = document.getElementById('preview');
+    let mediaRecorder;
+    let recordedChunks = [];
+
+    recordButton.addEventListener('click', async () => {
+        // Request permission to use the camera
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        preview.srcObject = stream;
+
+        // Start recording
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                recordedChunks.push(event.data);
+            }
+        };
+
+        mediaRecorder.onstop = async () => {
+            // Create a blob from the recorded chunks
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            recordedChunks = [];
+
+            // Create a FormData object to send the blob to the server
+            const formData = new FormData();
+            formData.append('video', blob, 'video.webm');
+            setTimeout(() =>  document.getElementById('temp').style.display = "none", 100
+         
+         );
+         setTimeout(() =>  document.getElementById('loader').style.display = "flex", 100
+         
+         );
+
+            // Send the video blob to the server
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                // if (response.ok) {
+                //     alert('Video uploaded successfully!');
+                // } else {
+                //     alert('Failed to upload video.');
+                // }
+            } catch (error) {
+                console.error('Error uploading video:', error);
+                alert('Error uploading video.');
+            }
+
+            
+    
+        };
+
+        // Start recording and stop after 2 seconds
+        mediaRecorder.start();
+        
+        setTimeout(() => mediaRecorder.stop(), 2000
+         
+    );
+
+
+        
+      
+        
+    });
+   
+</script>

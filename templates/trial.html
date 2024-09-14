@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Recorder</title>
+</head>
+<body style="display: flex;justify-content: center;">
+    <h1>Record a 2-Second Video</h1>
+    <button id="recordButton">Record Video</button>
+    <video id="preview" width="320" height="240" autoplay muted></video>
+
+    <script>
+        const recordButton = document.getElementById('recordButton');
+        const preview = document.getElementById('preview');
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        recordButton.addEventListener('click', async () => {
+            // Request permission to use the camera
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            preview.srcObject = stream;
+
+            // Start recording
+            mediaRecorder = new MediaRecorder(stream);
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                }
+            };
+
+            mediaRecorder.onstop = async () => {
+                // Create a blob from the recorded chunks
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                recordedChunks = [];
+
+                // Create a FormData object to send the blob to the server
+                const formData = new FormData();
+                formData.append('video', blob, 'video.webm');
+
+                // Send the video blob to the server
+                try {
+                    const response = await fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        alert('Video uploaded successfully!');
+                    } else {
+                        alert('Failed to upload video.');
+                    }
+                } catch (error) {
+                    console.error('Error uploading video:', error);
+                    alert('Error uploading video.');
+                }
+            };
+
+            // Start recording and stop after 2 seconds
+            mediaRecorder.start();
+            setTimeout(() => mediaRecorder.stop(), 2000);
+        });
+    </script>
+</body>
+</html>
