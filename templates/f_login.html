@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <style>*{
+        margin: 0;
+        padding: 0;
+        user-select: none;
+        
+        }
+        *::selection{
+            background-color: transparent;
+        }
+
+        *:focus{
+            background-color: transparent;
+        }
+
+        *{
+    outline-width:  0 !important;
+}
+
+*:focus{
+    outline: none !important;
+}
+
+/*IE9*/
+*::selection 
+{
+    background-color:transparent;
+} 
+*::-moz-selection
+{
+    background-color:transparent;
+}
+*
+{        
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    /*IE10*/
+    -ms-user-select: none;
+    user-select: none;
+
+    /*You just need this if you are only concerned with android and not desktop browsers.*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}    
+input[type="text"], textarea, [contenteditable]
+{
+
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+
+        
+        </style>
+</head>
+<body style="display: flex;justify-content: center;align-items: top;">
+    <form action="/getcap" method="post">
+    <div id="main" style="border-radius: 14px;flex-direction: column;;display: flex;justify-content: center;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+     <div class="imgholder">
+        <img src="/static/fbg.svg" alt="" style="border-radius: 14px;">
+     </div> 
+     
+     <div class="btnholder" style="display: flex;justify-content: center;cursor: pointer;">
+        <input type="text" required name="uname" style="padding: 1em;font-size: 1rem;border: 0px solid gray; width: 100%;margin: 1em 2em;border-radius: 4px;color: grey   ;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;font-family: 'Poppins';font-weight: 300;" placeholder="Enter Username">
+     </div>
+
+     <div class="btnholder" style="display: flex;justify-content: center;cursor: pointer;">
+        <button class="btn" style="border: 0;background-color: transparent;"><img src="/static/fbtn.svg" alt=""></button>
+     </div>
+    </form>
+
+     <div class="btnholder" style="display: flex;justify-content: center;cursor: pointer;">
+        <div class="jp"><img src="/static/jp.svg" alt="" style="padding-bottom: 5em;"></div>
+     </div>
+
+    </div>
+
+
+
+
+
+    
+</body>
+</html>
