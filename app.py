@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, g, session
+from flask import Flask, render_template, request, redirect, url_for, g, session,jsonify
 import os
 import mysql.connector
 import tt
@@ -8,6 +8,12 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 app.secret_key = "69583420385748392098"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+# temproary api keys
+
+apikey = "CTNA5663344643F6"
+passkey = "56563535F54tAAVBF"
 
 def get_db():
     if 'db' not in g:
@@ -49,7 +55,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 # Home route to serve the HTML page
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('dboard.html')
 
 @app.route('/landing')
 def landing():
@@ -57,11 +63,31 @@ def landing():
 
 
 
+@app.route('/verf',methods=['GET','POST'])
+def verify():
+    return render_template('dboard.html',name = session.get('name'))
+
 
 @app.route('/fetchcon',methods=["POST","GET"])
 def fetchcon():
-   name  = tt.faceauth()
-   return name
+    name  = tt.faceauth()
+    uname = session.get('name')
+    
+    if uname == name:
+        print("User Authenticated")
+        # return render_template('dboard.html',name = name)
+
+        return '', 200
+    else:
+        print("ERROR")
+        return '', 404
+    # response = {
+    #     'status': 'success',
+    #     'received': name
+    # }
+   
+    return jsonify(response) 
+#    return name
    
 
 
